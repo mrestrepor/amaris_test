@@ -2,8 +2,6 @@ package com.microservice.microservice.services;
 
 import com.microservice.microservice.entities.Person;
 
-import java.rmi.ServerException;
-import java.util.List;
 import java.util.Optional;
 
 public interface PersonService {
@@ -16,8 +14,13 @@ public interface PersonService {
      */
     Person addPerson(Person employeeProfile);
 
+
     /**
-     * @return List of employee profiles
+     * Returns the Person Enity if found by id and idType
+     *
+     * @param id Person id
+     * @param idType Person ID Type
+     * @return Optional of Person Entity
      */
-    List<Person> getEmployeeProfiles();
+    Optional<Person> getPersonByIdAndIdType(String id, String idType);
 }

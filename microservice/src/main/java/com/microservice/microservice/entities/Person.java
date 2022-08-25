@@ -1,15 +1,17 @@
 package com.microservice.microservice.entities;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Entity
+@Table(name = "Persons")
 public class Person {
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @NotNull(message = "Id is mandatory")
     private String id;
 
@@ -25,10 +27,10 @@ public class Person {
     @Column(name = "firstSurname")
     private String firstSurname;
 
-    @Column(name="secondSurname")
+    @Column(name = "secondSurname")
     private String secondSurname;
 
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
 
     @Column(name = "address")

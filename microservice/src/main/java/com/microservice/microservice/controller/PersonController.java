@@ -4,15 +4,14 @@ import com.microservice.microservice.dto.PersonDTO;
 import com.microservice.microservice.entities.Person;
 import com.microservice.microservice.services.PersonService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
-import java.rmi.ServerException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +35,12 @@ public class PersonController {
         return new ResponseEntity<>(employeeProfile, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getPersons")
+    @RequestMapping(value = "/getPersons", params = {"id", "idType"})
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
-    public List<Person> getAllEmployee() {
-        return getPersonService().getEmployeeProfiles();
+    public ResponseEntity<?> getAllEmployee(@RequestParam String id, @RequestParam String idType) {
+        Optional<Person> optionalPerson = getPersonService().getPersonByIdAndIdType(id, idType);
+        return optionalPerson.isPresent() ? new ResponseEntity<>(optionalPerson.get(), HttpStatus.OK) : new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
     public PersonService getPersonService() {

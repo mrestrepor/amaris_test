@@ -6,8 +6,6 @@ import com.microservice.microservice.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.rmi.ServerException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,8 +24,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> getEmployeeProfiles() {
-        return getPersonRepository().findAll();
+    public Optional<Person> getPersonByIdAndIdType(String id, String idType) {
+        return Optional.ofNullable(getPersonRepository().findByIdAndIdType(id, idType));
     }
 
     public PersonRepository getPersonRepository() {
