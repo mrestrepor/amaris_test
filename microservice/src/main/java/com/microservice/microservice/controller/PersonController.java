@@ -2,7 +2,7 @@ package com.microservice.microservice.controller;
 
 import com.microservice.microservice.dto.PersonDTO;
 import com.microservice.microservice.entities.Person;
-import com.microservice.microservice.service.PersonService;
+import com.microservice.microservice.services.PersonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,26 +10,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
+import java.rmi.ServerException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Validated
 @RequestMapping(value = "/")
 public class PersonController {
 
-    final PersonService employeeProfileService;
+    final PersonService personService;
 
     @Autowired
-    public PersonController(PersonService employeeProfileService) {
-        this.employeeProfileService = employeeProfileService;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @RequestMapping(value = "/persons")
     @PostMapping
     public ResponseEntity<?> saveEmployeeProfile(@Valid @RequestBody PersonDTO employeeProfileDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        Person employeeProfile = getEmployeeProfileService().addEmployeeProfile(modelMapper.map(employeeProfileDTO, Person.class));
+        Person employeeProfile = getPersonService().addPerson(modelMapper.map(employeeProfileDTO, Person.class));
         return new ResponseEntity<>(employeeProfile, HttpStatus.CREATED);
     }
 
@@ -37,10 +40,10 @@ public class PersonController {
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
     public List<Person> getAllEmployee() {
-        return getEmployeeProfileService().getEmployeeProfiles();
+        return getPersonService().getEmployeeProfiles();
     }
 
-    public PersonService getEmployeeProfileService() {
-        return employeeProfileService;
+    public PersonService getPersonService() {
+        return personService;
     }
 }
